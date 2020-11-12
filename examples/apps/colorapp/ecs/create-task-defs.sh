@@ -87,7 +87,7 @@ generate_sidecars "colorgateway"
 task_def_json=$(jq -n \
     --arg NAME "$ENVIRONMENT_NAME-ColorGateway" \
     --arg STAGE "$APPMESH_STAGE" \
-    --arg COLOR_TELLER_ENDPOINT "colorteller.$SERVICES_DOMAIN:9080" \
+    --arg COLOR_TELLER_ENDPOINT "colorteller.$SERVICES_DOMAIN:8080/color" \
     --arg TCP_ECHO_ENDPOINT "tcpecho.$SERVICES_DOMAIN:2701" \
     --arg APP_IMAGE $COLOR_GATEWAY_IMAGE \
     --arg AWS_REGION $AWS_DEFAULT_REGION \

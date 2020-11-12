@@ -22,7 +22,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
             HealthCheck:
               Protocol: http
@@ -43,7 +43,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
             HealthCheck:
               Protocol: http
@@ -64,7 +64,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
             HealthCheck:
               Protocol: http
@@ -85,7 +85,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
             HealthCheck:
               Protocol: http
@@ -113,6 +113,7 @@ Resources:
     Type: AWS::AppMesh::Route
     DependsOn:
       - ColorTellerVirtualRouter
+      - ColorTellerBlackVirtualNode
       - ColorTellerWhiteVirtualNode
       - ColorTellerRedVirtualNode
       - ColorTellerBlueVirtualNode
@@ -129,6 +130,8 @@ Resources:
               - VirtualNode: colorteller-blue-vn
                 Weight: 1
               - VirtualNode: colorteller-red-vn
+                Weight: 1
+              - VirtualNode: colorteller-black-vn
                 Weight: 1
           Match:
             Prefix: "/"

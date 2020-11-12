@@ -13,4 +13,5 @@ aws --profile "${AWS_PROFILE}" --region "${AWS_DEFAULT_REGION}" \
     EnvironmentName="${ENVIRONMENT_NAME}" \
     KeyName="${KEY_PAIR_NAME}" \
     ECSServicesDomain="${SERVICES_DOMAIN}" \
+    InstanceType="${INSTANCE_TYPE}" \
     ClusterSize="${CLUSTER_SIZE:-5}"
