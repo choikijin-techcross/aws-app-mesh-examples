@@ -241,7 +241,7 @@ Resources:
       TaskDefinition: { Ref: ColorGatewayTaskDefinition }
       LoadBalancers:
         - ContainerName: app
-          ContainerPort: 9080
+          ContainerPort: 8080
           TargetGroupArn: !Ref WebTargetGroup
 
   ### tester
@@ -275,7 +275,7 @@ Resources:
           Image: "tstrohmeier/alpine-infinite-curl"
           Essential: true
           Command:
-            - !Sub "-h http://colorgateway.${ECSServicesDomain}:9080/color"
+            - !Sub "-h http://colorgateway.${ECSServicesDomain}:8080/color"
           LogConfiguration:
             LogDriver: "awslogs"
             Options:

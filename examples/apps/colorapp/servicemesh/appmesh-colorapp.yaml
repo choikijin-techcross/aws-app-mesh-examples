@@ -106,7 +106,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
 
   ColorTellerRoute:
@@ -191,7 +191,7 @@ Resources:
       Spec:
         Listeners:
           - PortMapping:
-              Port: 9080
+              Port: 8080
               Protocol: http
         ServiceDiscovery:
           DNS:
@@ -201,3 +201,53 @@ Resources:
               VirtualServiceName: !Sub "colorteller.${ServicesDomain}"
           - VirtualService:
               VirtualServiceName: !Sub "tcpecho.${ServicesDomain}"
+
+  ColorGatewayVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - ColorGatewayVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshMeshName
+      VirtualServiceName: !Sub "colorgateway.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualNode:
+            VirtualNodeName: colorgateway-vn
+
+  ColorGatewayVirtualGateway:
+    Type: AWS::AppMesh::VirtualGateway
+    DependsOn:
+      - ColorGatewayVirtualService
+    Properties:
+      MeshName: !Ref AppMeshMeshName
+      VirtualGatewayName: colorgateway-vg
+      Spec:
+        Listeners:
+          - HealthCheck:
+              HealthyThreshold: 5
+              IntervalMillis: 30000
+              Path: /ping
+              Port: 8080
+              Protocol: http
+              TimeoutMillis: 5000
+              UnhealthyThreshold: 2
+            PortMapping:
+              Port: 8080
+              Protocol: http
+
+  ColorGatewayRoute:
+    Type: AWS::AppMesh::GatewayRoute
+    DependsOn:
+      - ColorGatewayVirtualGateway
+    Properties:
+      MeshName: !Ref AppMeshMeshName
+      VirtualGatewayName: colorgateway-vg
+      GatewayRouteName: colorgateway-route
+      Spec:
+        HttpRoute:
+          Action:
+            Target:
+              VirtualService:
+                VirtualServiceName: !Sub "colorgateway.${ServicesDomain}"
+          Match:
+            Prefix: /
