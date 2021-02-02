@@ -2,31 +2,12 @@
 	"spec": {
 		"listeners": [{
 			"portMapping": {
-				"port": 9080,
+				"port": 8080,
 				"protocol": "http"
-			},
-			"tls": {
-				"mode": "STRICT",
-				"certificate": {
-					"acm": {
-						"certificateArn": $CERTIFICATE_ARN
-					}
-				}
 			}
 		}],
 		"backendDefaults": {
 			"clientPolicy": {
-				"tls": {
-					"validation": {
-						"trust": {
-							"acm": {
-								"certificateAuthorityArns": [
-									$ROOT_CA_ARN
-								]
-							}
-						}
-					}
-				}
 			}
 		}
 	}
